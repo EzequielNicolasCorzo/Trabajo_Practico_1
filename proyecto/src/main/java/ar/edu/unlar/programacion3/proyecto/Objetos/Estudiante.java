@@ -1,4 +1,4 @@
-package ar.edu.unlar.programacion3.proyecto;
+package ar.edu.unlar.programacion3.proyecto.Objetos;
 
 public class Estudiante {
 

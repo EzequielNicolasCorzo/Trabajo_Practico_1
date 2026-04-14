@@ -1,6 +1,7 @@
-package ar.edu.unlar.programacion3.proyecto;
+package ar.edu.unlar.programacion3.proyecto.Objetos;
 
 import java.time.LocalDate;
+
 
 public class Prestamo {
     
