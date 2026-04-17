@@ -53,4 +53,14 @@ public class Estudiante {
         this.email = email;
     }
 
+    //toString
+    @Override
+    public String toString() {
+        return "Estudiante{" +
+                "legajo='" + legajo + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", carrera='" + carrera + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
