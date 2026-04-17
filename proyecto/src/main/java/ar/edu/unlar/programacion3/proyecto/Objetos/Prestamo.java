@@ -54,7 +54,8 @@ public class Prestamo {
     public void setFechaDevolucion(LocalDate fechaDevolucion){
         this.fechaDevolucion = fechaDevolucion;
     }
-
+    
+    /* 
     public double calcularMulta(int diasRetraso, double precioLibro) {
         int contador = 0;
         precioLibro = precioLibro * 0.01;
@@ -65,6 +66,7 @@ public class Prestamo {
         }
         return precioLibro;
     }
+    */
 
     @Override
     public int hashCode() {

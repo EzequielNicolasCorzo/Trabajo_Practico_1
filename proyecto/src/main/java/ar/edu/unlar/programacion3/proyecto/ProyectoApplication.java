@@ -53,6 +53,9 @@ public class ProyectoApplication {
 		String legajo = entrada.nextLine();
 
 		//manejo de exception estudiante con if
+
+		System.out.println("Ingrese el legajo por teclado");
+
 		if (estudiantes.get(legajo) == null) {
 			System.out.println("Estudiante no encontrado");
 		} else {
