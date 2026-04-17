@@ -12,7 +12,12 @@ public class Prestamo {
     private LocalDate fechaPrestamo;
     private LocalDate fechaDevolucion;
 
-    //Constructor
+    //Constructor por defecto
+
+    public Prestamo(){
+    }
+
+    //Constructor parametrizado
 
     public Prestamo(Libro libro, Estudiante estudiante, LocalDate fechaPrestamo, LocalDate fechaDevolucion){
         this.libro = libro;
@@ -55,18 +60,15 @@ public class Prestamo {
         this.fechaDevolucion = fechaDevolucion;
     }
     
-    /* 
-    public double calcularMulta(int diasRetraso, double precioLibro) {
-        int contador = 0;
-        precioLibro = precioLibro * 0.01;
-        contador = contador + 1;
+    //Metodo toString() informativo
 
-        if (contador < diasRetraso || contador < 30) {
-            return calcularMulta(contador, precioLibro);   
-        }
-        return precioLibro;
+    @Override
+    public String toString() {
+        return "Libro { "+ libro + " } " + "Estudiante { " + estudiante + " } " + "Fechas { Prestamo: " + fechaPrestamo
+                + ", devolucion: " + fechaDevolucion + " }";
     }
-    */
+
+    //Metodos hashCode() equals() necesarios para HashSet()
 
     @Override
     public int hashCode() {
@@ -109,15 +111,5 @@ public class Prestamo {
         } else if (!fechaDevolucion.equals(other.fechaDevolucion))
             return false;
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Prestamo{" +
-                "libro='" + libro + '\'' +
-                ", estudiante='" + estudiante + '\'' +
-                ", fechaPrestamo='" + fechaPrestamo + '\'' +
-                ", fechaDevolucion='" + fechaDevolucion + '\'' +
-                '}';
     }
 }

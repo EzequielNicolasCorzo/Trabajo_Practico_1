@@ -10,8 +10,12 @@ public class Libro {
     private int anio;
     private boolean disponible;  
     
+    //Constructor por defecto
+    
+    public Libro(){
+    }
 
-    //Constructor
+    //Constructor parametrizado
 
     public Libro(String ISBN, String titulo, String autor, int anio, boolean disponible){
         this.ISBN = ISBN;
@@ -63,16 +67,15 @@ public class Libro {
     public void setDisponible(boolean disponible){
         this.disponible = disponible;
     }
+    
+    //Metodo toString() informativo
 
-    //toString
     @Override
     public String toString() {
-        return "Libro{" +
-                "ISBN='" + ISBN + '\'' +
-                ", titulo='" + titulo + '\'' +
-                ", autor='" + autor + '\'' +
-                ", anio=" + anio +
-                ", disponible=" + disponible +
-                '}';
+        return "ISBN:" + ISBN + ", titulo: " + titulo + ", autor: " + autor + ", anio: " + anio + ", disponible: "
+                + disponible;
     }
+    
+
+
 }

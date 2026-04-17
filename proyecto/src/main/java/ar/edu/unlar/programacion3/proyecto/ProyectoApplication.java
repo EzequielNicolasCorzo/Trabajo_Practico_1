@@ -1,12 +1,9 @@
 package ar.edu.unlar.programacion3.proyecto;
 
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
-import java.util.Scanner;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,51 +14,108 @@ import ar.edu.unlar.programacion3.proyecto.Objetos.Prestamo;
 
 @SpringBootApplication
 public class ProyectoApplication {
-
-	public static void main(String[] args) {
+		public static void main(String[] args) {
 		SpringApplication.run(ProyectoApplication.class, args);
-
-		List<Libro> libros = new ArrayList<>();
-		Map<String, Estudiante> estudiantes = new HashMap<>();
-		Set<Prestamo> prestamos = new HashSet<>();
-
-		Scanner entrada = new Scanner(System.in);
-
-		//agregar libros al arraylist
-		libros.add(new Libro("978-3-16-148410-0",
-							 "El Quijote", 
-							 "Miguel de Cervantes", 
-							 1605, 
-							 true));
 		
-		 libros.add(new Libro("978-0-14-044913-6", 
-		 					 "La Odisea", 
-							 "Homero", 
-							 -800, 
-							 true));
 
+		//Catalogo de libros
 
-		 //agregar estudiantes al hashmap
-		estudiantes.put("12345", new Estudiante("12345", "Juan Perez", "Ingenieria Informatica", "juan.perez@unlar.edu.ar"));
-		estudiantes.put("67890", new Estudiante("67890", "Maria Gomez", "Licenciatura en Informatica", "maria.gomez@unlar.edu.ar"));
+		ArrayList<Libro>libros = new ArrayList<>();
+		
+		Libro libro1 = new Libro(	"978-8491052142",
+								    "Orgullo y Prejuicio",
+									"Jane Austen", 
+									1813, 
+									true);
+		
+		Libro libro2 = new Libro(	"978-8467046465", 
+									"Crimen y Castigo", 
+									"eFiodor Dostoyevski", 
+									1866, 
+									true);
 
-		//agregar prestamos al hashset
-		prestamos.add(new Prestamo(libros.get(0), estudiantes.get("12345"), java.time.LocalDate.now(), java.time.LocalDate.now().plusDays(14)));
-		prestamos.add(new Prestamo(libros.get(1), estudiantes.get("67890"), java.time.LocalDate.now(), java.time.LocalDate.now().plusDays(14)));
+		Libro libro3 = new Libro(	"978-8439728368", 
+									"Cien años de soledad", 
+									"Gabriel García Márquez",
+									1967, 
+									true);
 
-		//imprimir todos los valores de las listas
-		String legajo = entrada.nextLine();
+		Libro libro4 = new Libro(	"978-8420432878", 
+									"Rayuela", 
+									"Julio Cortazar", 
+									1963, 
+									true);
+		
+		Libro libro5 = new Libro(	"978-8437604312",
+									"Los siete locos", 
+									"Roberto Arlt", 
+									1929, 
+									true);							
+		
+		libros.add(libro1);
+		libros.add(libro2);
+		libros.add(libro3);
+		libros.add(libro4);
+		libros.add(libro5);
 
-		//manejo de exception estudiante con if
+		System.out.println("|	Catalogo de libros	|");
 
-		System.out.println("Ingrese el legajo por teclado");
+		for (Libro l : libros) {
+			System.out.println(l);
+		}
+		
+		//Registro de estudiantes
 
-		if (estudiantes.get(legajo) == null) {
-			System.out.println("Estudiante no encontrado");
-		} else {
-			System.out.println(estudiantes.get(legajo.toString()));
+		HashMap<String, Estudiante>estudiantes = new  HashMap<>();
+
+		Estudiante estudiante1 = new Estudiante("1212", 
+												"Lucas Romero", 
+												"Medicina", 
+												"lucasromero.edu.unlar");
+		
+		Estudiante estudiante2 = new Estudiante("1232", 
+												"Matias Lozano", 
+												"Ingenieria en Sistemas", 
+												"matiaslozano.edu.unlar");
+		
+		Estudiante estudiante3 = new Estudiante("1252", 
+												"Marcos Castro", 
+												"Licenciatura en Sistemas", 
+												"marcoscastro.edu.unlar");
+
+		estudiantes.put(estudiante1.getLegajo(), estudiante1);
+		estudiantes.put(estudiante2.getLegajo(), estudiante2);
+		estudiantes.put(estudiante3.getLegajo(), estudiante3);
+		
+		System.out.println("|	Registro de estudiantes 	|");
+		for (Estudiante e : estudiantes.values()) {
+			System.out.println(e);
 		}
 
-		entrada.close();
+		//Prestamos activos
+
+		HashSet<Prestamo>prestamos = new HashSet<>();
+
+		Prestamo prestamo1 = new Prestamo(libro1, estudiante1, 
+										  LocalDate.of(2026, 01, 10),  //Fecha prestamo
+										  LocalDate.of(2026, 02, 20)); //Fecha devolucion
+
+		Prestamo prestamo2 = new Prestamo(libro3, estudiante2, 
+										  LocalDate.of(2026, 03, 10),  //Fecha prestamo
+										  LocalDate.of(2026, 04, 17)); //Fecha devolucion
+
+		Prestamo prestamo3 = new Prestamo(libro5, estudiante3, 
+										  LocalDate.of(2026, 02, 17),  //Fecha prestamo
+										  LocalDate.of(2026, 03, 17)); //Fecha devolucion
+
+		System.out.println("|	Prestamos activos 	|");
+		
+		prestamos.add(prestamo1);
+		prestamos.add(prestamo2);
+		prestamos.add(prestamo3);
+
+		for (Prestamo p : prestamos) {
+			System.out.println(p);
+		}		
 	}
 }
