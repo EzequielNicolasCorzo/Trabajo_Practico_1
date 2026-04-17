@@ -27,9 +27,6 @@ public class ProyectoApplication {
 
 		Scanner entrada = new Scanner(System.in);
 
-		Prestamo prestamo1 = new Prestamo(null, null, null, null);
-
-
 		//agregar libros al arraylist
 		libros.add(new Libro("978-3-16-148410-0",
 							 "El Quijote", 
@@ -62,7 +59,6 @@ public class ProyectoApplication {
 			System.out.println(estudiantes.get(legajo.toString()));
 		}
 
-		System.out.println(prestamo1.calcularMulta(5, 50));
+		entrada.close();
 	}
-
 }
