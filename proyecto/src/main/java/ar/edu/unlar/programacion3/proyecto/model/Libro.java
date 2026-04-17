@@ -1,4 +1,4 @@
-package ar.edu.unlar.programacion3.proyecto.Objetos;
+package ar.edu.unlar.programacion3.proyecto.model;
 
 public class Libro {
     
