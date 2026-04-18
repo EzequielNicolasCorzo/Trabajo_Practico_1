@@ -171,7 +171,7 @@ public class BibliotecaService {
 		System.out.println("Prestamos activos para el estudiante " + estudiante.getNombre() + ":");
 		for (Prestamo p : prestamos) {
 			if(p.getEstudiante().getLegajo().equals(legajo)){
-				System.out.println(p);
+				System.out.println(p.toString());
 			}
 		}
 	}

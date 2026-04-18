@@ -28,17 +28,24 @@ public class ProyectoApplication {
 			System.out.println(e.getMessage());
 		}
 
-		//Prestamos 3 libros a un mismo estudiante para probar excepcion de limite de prestamos (LimitePrestamosExcedidoException) y luego intentar prestar un libro ya prestado para probar excepcion de libro no disponible (LibroNoDisponibleException)
+		//Prestamos 3 libros al mismo estudiante para probar excepcion de limite de prestamos (LimitePrestamosExcedidoException) y luego intentar prestar un libro ya prestado para probar excepcion de libro no disponible (LibroNoDisponibleException)
 		try {
 			service.realizarPrestamo("1212", "978-8467046465");
 			service.realizarPrestamo("1212", "978-8491052142");
+			service.realizarPrestamo("1212", "978-8437604312");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 
-		//Forzamos la excepcion de limite de prestamos excedido al intentar prestar un tercer libro al mismo estudiante
+		//Forzamos la excepcion de limite de prestamos excedido al intentar prestar un cuarto libro al mismo estudiante
 		try {
 			service.realizarPrestamo("1212", "978-8439728368");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		try {
+			service.mostrarPrestamosPorEstudiante("1212");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
