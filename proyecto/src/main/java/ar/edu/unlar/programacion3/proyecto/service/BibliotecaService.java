@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import ar.edu.unlar.programacion3.proyecto.model.Estudiante;
 import ar.edu.unlar.programacion3.proyecto.model.Libro;
@@ -12,9 +15,9 @@ import ar.edu.unlar.programacion3.proyecto.model.Prestamo;
 public class BibliotecaService {
         
     //Colecciones
-    ArrayList<Libro>libros = new ArrayList<>();
-    HashMap<String, Estudiante>estudiantes = new  HashMap<>();
-    HashSet<Prestamo>prestamos = new HashSet<>();
+    private List<Libro>libros = new ArrayList<>();
+    private Map<String, Estudiante>estudiantes = new  HashMap<>();
+    private Set<Prestamo>prestamos = new HashSet<>();
 
     public void cargaDatos(){
 
@@ -90,7 +93,7 @@ public class BibliotecaService {
 	prestamos.add(prestamo3);
 
     }
-		
+	
     public void mostrarDatos(){
 
         System.out.println("|	Catalogo de libros	|");
@@ -110,8 +113,51 @@ public class BibliotecaService {
 			System.out.println(p);
 		}	
 
-        }
-	
+    }
+
+	public void realizarPrestamo(String legajo, String ISBN) throws Exception{
+		Estudiante estudiante = estudiantes.get(legajo);
+		int countPrestamos = 0;
+		if(estudiante == null){
+			throw new Exception("Estudiante no registrado"); //EstudianteNoEncontradoException
+		}
+		
+		for (Prestamo p : prestamos) {
+			if(p.getEstudiante().getLegajo().equals(legajo)){
+				countPrestamos++;
+			}
+		}
+		if(countPrestamos >= 3){
+			throw new Exception("El estudiante ya tiene 3 prestamos activos"); //LimitePrestamosExcedidoException
+		}
+
+		Libro libro = null;
+		for (Libro l : libros) {
+			if(l.getISBN().equals(ISBN)){
+				libro = l;
+				break;
+			}
+		}
+		if(libro == null){
+			throw new Exception("Libro no encontrado"); //LibroNoEncontradoException
+		}
+		if(!libro.getDisponible()){
+			throw new Exception("Libro no disponible para prestamo");
+		}
+		
+		libro.setDisponible(false);
+		
+		LocalDate fechaPrestamo = LocalDate.now();
+		LocalDate fechaDevolucion = fechaPrestamo.plusDays(30);
+		
+		Prestamo prestamo = new Prestamo(libro, estudiante, fechaPrestamo, fechaDevolucion);
+		
+		prestamos.add(prestamo);
+		
+		System.out.println("Prestamo realizado con exito");
+		
 	}
+
+}
 
 
