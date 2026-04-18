@@ -110,9 +110,5 @@ public class Estudiante {
         } else if (!email.equals(other.email))
             return false;
         return true;
-    }
-
-    
-    
-    
+    }    
 }

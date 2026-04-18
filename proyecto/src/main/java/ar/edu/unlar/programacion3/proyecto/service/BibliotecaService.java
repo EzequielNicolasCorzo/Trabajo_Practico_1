@@ -76,22 +76,25 @@ public class BibliotecaService {
 	estudiantes.put(estudiante2.getLegajo(), estudiante2);
 	estudiantes.put(estudiante3.getLegajo(), estudiante3);
 
-	//Prestamos activos
-    Prestamo prestamo1 = new Prestamo(libro1, estudiante1, 
-										  LocalDate.of(2026, 01, 10),  //Fecha prestamo
-										  LocalDate.of(2026, 02, 20)); //Fecha devolucion
+		/*
+		Prestamo prestamo1 = new Prestamo(libro1, estudiante1, 
+											LocalDate.of(2026, 01, 10),  //Fecha prestamo
+											LocalDate.of(2026, 02, 20)); //Fecha devolucion
 
-	Prestamo prestamo2 = new Prestamo(libro3, estudiante2, 
-										  LocalDate.of(2026, 03, 10),  //Fecha prestamo
-										  LocalDate.of(2026, 04, 17)); //Fecha devolucion
+		Prestamo prestamo2 = new Prestamo(libro3, estudiante2, 
+											LocalDate.of(2026, 03, 10),  //Fecha prestamo
+											LocalDate.of(2026, 04, 17)); //Fecha devolucion
 
-	Prestamo prestamo3 = new Prestamo(libro5, estudiante3, 
-										  LocalDate.of(2026, 02, 17),  //Fecha prestamo
-										  LocalDate.of(2026, 03, 17)); //Fecha devolucion
-    prestamos.add(prestamo1);
-	prestamos.add(prestamo2);
-	prestamos.add(prestamo3);
+		Prestamo prestamo3 = new Prestamo(libro5, estudiante3, 
+											LocalDate.of(2026, 02, 17),  //Fecha prestamo
+											LocalDate.of(2026, 03, 17)); //Fecha devolucion
+		prestamos.add(prestamo1);
+		prestamos.add(prestamo2);
+		prestamos.add(prestamo3);
 
+		La forma la forma en que cargabamos los prestamos al hashset no estaba bien porque no se actualizaba la disponibilidad xd
+		*/
+		
     }
 	
     public void mostrarDatos(){
@@ -115,20 +118,21 @@ public class BibliotecaService {
 
     }
 
+	//metodo para realizar prestamos, con validaciones y excepciones
 	public void realizarPrestamo(String legajo, String ISBN) throws Exception{
 		Estudiante estudiante = estudiantes.get(legajo);
-		int countPrestamos = 0;
 		if(estudiante == null){
-			throw new Exception("Estudiante no registrado"); //EstudianteNoEncontradoException
+			throw new Exception("Estudiante con legajo " + legajo + " no registrado"); //EstudianteNoEncontradoException
 		}
 		
+		int countPrestamos = 0;
 		for (Prestamo p : prestamos) {
-			if(p.getEstudiante().getLegajo().equals(legajo)){
+			if(p.getEstudiante().getLegajo().equals(legajo)){ //contar prestamos activos del estudiante
 				countPrestamos++;
 			}
 		}
 		if(countPrestamos >= 3){
-			throw new Exception("El estudiante ya tiene 3 prestamos activos"); //LimitePrestamosExcedidoException
+			throw new Exception("El estudiante " + estudiante.getNombre() + " ya tiene 3 prestamos activos"); //LimitePrestamosExcedidoException
 		}
 
 		Libro libro = null;
@@ -139,10 +143,10 @@ public class BibliotecaService {
 			}
 		}
 		if(libro == null){
-			throw new Exception("Libro no encontrado"); //LibroNoEncontradoException
+			throw new Exception("Libro con ISBN " + ISBN + " no encontrado"); //LibroNoEncontradoException
 		}
 		if(!libro.getDisponible()){
-			throw new Exception("Libro no disponible para prestamo");
+			throw new Exception("Libro con ISBN " + ISBN + " no disponible para prestamo");//LibroNoDisponibleException (en caso de que el libro exista pero ya este prestado)
 		}
 		
 		libro.setDisponible(false);
@@ -156,6 +160,20 @@ public class BibliotecaService {
 		
 		System.out.println("Prestamo realizado con exito");
 		
+	}
+
+	public void mostrarPrestamosPorEstudiante(String legajo) throws Exception{
+		Estudiante estudiante = estudiantes.get(legajo);
+		if(estudiante == null){
+			throw new Exception("Estudiante con legajo " + legajo + " no registrado");
+		}
+		
+		System.out.println("Prestamos activos para el estudiante " + estudiante.getNombre() + ":");
+		for (Prestamo p : prestamos) {
+			if(p.getEstudiante().getLegajo().equals(legajo)){
+				System.out.println(p);
+			}
+		}
 	}
 
 }

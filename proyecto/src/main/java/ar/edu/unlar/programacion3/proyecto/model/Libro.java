@@ -75,7 +75,4 @@ public class Libro {
         return "ISBN:" + ISBN + ", titulo: " + titulo + ", autor: " + autor + ", anio: " + anio + ", disponible: "
                 + disponible;
     }
-    
-
-
 }
