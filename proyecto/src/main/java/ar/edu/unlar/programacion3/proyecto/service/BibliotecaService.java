@@ -159,9 +159,31 @@ public class BibliotecaService {
 		prestamos.add(prestamo);
 		
 		System.out.println("Prestamo realizado con exito");
+	}
+
+	public void registrarDevolucion(Prestamo prestamo, int diasRetraso, double valorLibro){
 		
 	}
 
+	//metodo para buscar libro en base al nombre e imprimir resultados del libro con toString()
+	public void buscarLibro(String titulo) throws Exception{
+		List<Libro> resultados = new ArrayList<>();
+		for (Libro l : libros) {
+			if(l.getTitulo().toLowerCase().contains(titulo.toLowerCase())){
+				resultados.add(l);
+			}
+		}
+		if(resultados.isEmpty()){
+			throw new Exception("No se encontraron libros con el titulo " + titulo);
+		}
+		
+		System.out.println("Resultados de busqueda para el titulo '" + titulo + "':");
+		for (Libro l : resultados) {
+			System.out.println(l.toString());
+		}
+	} 
+
+	//metodo para mostrar los prestamos por estudiante, basado en legajo
 	public void mostrarPrestamosPorEstudiante(String legajo) throws Exception{
 		Estudiante estudiante = estudiantes.get(legajo);
 		if(estudiante == null){
@@ -177,5 +199,3 @@ public class BibliotecaService {
 	}
 
 }
-
-
