@@ -171,7 +171,7 @@ public class BibliotecaService {
 		return valorLibro;
 	}
 	
-	//metodo para registrar devolucion, calcular multa y 
+	//metodooo para registrar devolucion, calcular multa y 
 	public void registrarDevolucion(String legajo, String ISBN, int diasRetraso, double valorLibro) throws Exception{
 		Estudiante estudiante = estudiantes.get(legajo);
 		if(estudiante == null){
