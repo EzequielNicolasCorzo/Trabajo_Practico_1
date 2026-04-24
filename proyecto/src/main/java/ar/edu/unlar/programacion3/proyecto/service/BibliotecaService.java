@@ -161,8 +161,45 @@ public class BibliotecaService {
 		System.out.println("Prestamo realizado con exito");
 	}
 
-	public void registrarDevolucion(Prestamo prestamo, int diasRetraso, double valorLibro){
-		
+	public double calcularMulta(int diasRetraso, double valorLibro){
+		if (diasRetraso < 30 && diasRetraso > 0) {
+			valorLibro = valorLibro * 0.01;
+			diasRetraso--;
+			return calcularMulta(diasRetraso, valorLibro);
+		}
+		return valorLibro;
+	}
+
+	public void registrarDevolucion(String legajo, String ISBN, int diasRetraso, double valorLibro) throws Exception{
+		Estudiante estudiante = estudiantes.get(legajo);
+		if(estudiante == null){
+			throw new Exception("Estudiante con legajo " + legajo + " no registrado"); //EstudianteNoEncontradoException
+		}
+
+		Libro libro = null;
+		for (Libro l : libros) {
+			if(l.getISBN().equals(ISBN)){
+				libro = l;
+				break;
+			}
+		}
+		if(libro == null){
+			throw new Exception("Libro con ISBN " + ISBN + " no encontrado"); //LibroNoEncontradoException
+		}
+
+		Prestamo prestamoEncontrado = null;
+		for (Prestamo p : prestamos) {
+			if(p.getEstudiante().getLegajo().equals(legajo) && p.getLibro().getISBN().equals(ISBN)){
+				prestamoEncontrado = p;
+				break;
+			}
+		}
+		if(prestamoEncontrado == null){
+			throw new Exception("No se encontro un prestamo activo para el estudiante con legajo " + legajo); //PrestamoNoEncontradoException
+		}
+
+		prestamos.remove(prestamoEncontrado);
+		libro.setDisponible(true);
 	}
 
 	//metodo para buscar libro en base al nombre e imprimir resultados del libro con toString()
