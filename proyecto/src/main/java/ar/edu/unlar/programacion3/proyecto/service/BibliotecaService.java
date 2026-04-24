@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import ar.edu.unlar.programacion3.proyecto.exception.EstudianteNoEncontradoException;
+import ar.edu.unlar.programacion3.proyecto.exception.LibroNoDisponibleException;
+import ar.edu.unlar.programacion3.proyecto.exception.LimitePrestamosExcedidosException;
 import ar.edu.unlar.programacion3.proyecto.model.Estudiante;
 import ar.edu.unlar.programacion3.proyecto.model.Libro;
 import ar.edu.unlar.programacion3.proyecto.model.Prestamo;
@@ -16,9 +19,64 @@ public class BibliotecaService {
     HashMap<String, Estudiante>estudiantes = new  HashMap<>();
     HashSet<Prestamo>prestamos = new HashSet<>();
 
-    public void cargaDatos(){
+
+    public void registrarPrestamo(String legajo, String ISBN) throws 
+    EstudianteNoEncontradoException, LibroNoDisponibleException, LimitePrestamosExcedidosException{
+        
+        //Validacion del estudiante
+        Estudiante estudiante = estudiantes.get(legajo);
+        if (estudiante == null) {
+            throw new EstudianteNoEncontradoException("Legajo " + legajo + " inexistente.");
+            
+        }else{
+            System.out.println("Estudiante encontrado: " + legajo);
+        }
+
+        //Validacion disponibilidad del libro 
+        Libro libroSeleccionado = null;
+
+        for (Libro l : libros) {
+            if (l.getISBN().equals(ISBN)) {
+                libroSeleccionado = l;
+                break;
+            }
+        }
+
+        if (libroSeleccionado == null || !libroSeleccionado.getDisponible()) {
+            throw new LibroNoDisponibleException("El libro con " + ISBN + " no existe o no esta disponible.");
+        }
+
+        //Validacion del limite de estudiante por prestamo
+        int contador = 0;
+        for (Prestamo p : prestamos) {
+            if (p.getEstudiante().getLegajo().equals(legajo)) {
+                contador ++;
+            }
+        }
+
+        if (contador>=3) {
+            throw new LimitePrestamosExcedidosException("El estudiante ya posee 3 libros.");
+        }
+
+        //Registrar fecha
+        libroSeleccionado.setDisponible(false);
+        Prestamo nuevo = new Prestamo(libroSeleccionado, estudiante, LocalDate.now(), LocalDate.now().plusDays(15));
+        prestamos.add(nuevo);
+    }
+
+    //Listar prestamos por estudiante
+    public void mostrarPrestamosActivos(){
+        if (prestamos.isEmpty()) {
+            System.out.println("No hay prestamos activos.");
+        }else{
+            for (Prestamo p : prestamos) {
+                System.out.println(p);
+            }
+        }
+    }
 
     //Catalogo de libros 
+    public void cargarCatalogoLibros(){
     Libro libro1 = new Libro(	"978-8491052142",
 								"Orgullo y Prejuicio",
 								"Jane Austen", 
@@ -53,8 +111,31 @@ public class BibliotecaService {
 	libros.add(libro3);
 	libros.add(libro4);
 	libros.add(libro5);
+    }
 
-	//Registro de estudiantes
+    //Busqueda libro por titulo
+
+    public void buscarLibroPorTitulo(String busqueda){
+
+        boolean encontrado = false;
+
+        String busquedaMinuscula = busqueda.toLowerCase();
+        
+        for (Libro l : libros) {
+            if (l.getTitulo().toLowerCase().contains(busquedaMinuscula)) {
+                System.out.println(l);
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado) {
+            System.out.println("No se encontrron libros que coincida con: " +busqueda);
+        }
+    }
+
+
+    //Registro de estudiantes
+    public void cargarEstudiantes(){
 	Estudiante estudiante1 = new Estudiante(    "1212", 
 											    "Lucas Romero", 
 												"Medicina", 
@@ -72,8 +153,12 @@ public class BibliotecaService {
 	estudiantes.put(estudiante1.getLegajo(), estudiante1);
 	estudiantes.put(estudiante2.getLegajo(), estudiante2);
 	estudiantes.put(estudiante3.getLegajo(), estudiante3);
+    }
 
-	//Prestamos activos
+	
+    /*public void cargarPrestamos(Estudiante estudiante , Libro libro ){
+    
+    //Prestamos activos
     Prestamo prestamo1 = new Prestamo(libro1, estudiante1, 
 										  LocalDate.of(2026, 01, 10),  //Fecha prestamo
 										  LocalDate.of(2026, 02, 20)); //Fecha devolucion
@@ -89,29 +174,36 @@ public class BibliotecaService {
 	prestamos.add(prestamo2);
 	prestamos.add(prestamo3);
 
-    }
-		
-    public void mostrarDatos(){
+    }*/
+	
+    //Impresiones por pantalla
+
+    public void mostrarCatalogoLibros(){
 
         System.out.println("|	Catalogo de libros	|");
 
 		for (Libro l : libros) {
 			System.out.println(l);
 		}
-		
-		System.out.println("|	Registro de estudiantes 	|");
+    }
+
+    public void mostrarRegistroEstudiantes(){
+        
+        System.out.println("|	Registro de estudiantes 	|");
 		for (Estudiante e : estudiantes.values()) {
 			System.out.println(e);
 		}
+    }
 
-		System.out.println("|	Prestamos activos 	|");
+    public void mostrarPrestamos(){
+
+        System.out.println("|	Prestamos activos 	|");
 		
 		for (Prestamo p : prestamos) {
 			System.out.println(p);
 		}	
 
         }
-	
-	}
 
+	}
 

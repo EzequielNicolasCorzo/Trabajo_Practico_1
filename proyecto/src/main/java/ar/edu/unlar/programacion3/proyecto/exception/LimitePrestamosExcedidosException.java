@@ -1,9 +1,8 @@
 package ar.edu.unlar.programacion3.proyecto.exception;
 
-public class EstudianteNoEncontradoException extends Exception {
+public class LimitePrestamosExcedidosException extends Exception{
     //Constructor parametrizado
-    public EstudianteNoEncontradoException(String mensaje){
+    public LimitePrestamosExcedidosException(String mensaje){
         super(mensaje); //super envia este mensaje a la clase madre exception
     }
-
 }
