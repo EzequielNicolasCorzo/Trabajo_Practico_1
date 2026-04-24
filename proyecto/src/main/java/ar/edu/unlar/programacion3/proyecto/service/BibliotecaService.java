@@ -161,7 +161,8 @@ public class BibliotecaService {
 		System.out.println("Prestamo realizado con exito");
 	}
 
-	public double calcularMulta(int diasRetraso, double valorLibro){
+	//metodo recursivo en private para calcular multa
+	private double calcularMulta(int diasRetraso, double valorLibro){
 		if (diasRetraso < 30 && diasRetraso > 0) {
 			valorLibro = valorLibro * 0.01;
 			diasRetraso--;
@@ -169,7 +170,8 @@ public class BibliotecaService {
 		}
 		return valorLibro;
 	}
-
+	
+	//metodo para registrar devolucion, calcular multa y 
 	public void registrarDevolucion(String legajo, String ISBN, int diasRetraso, double valorLibro) throws Exception{
 		Estudiante estudiante = estudiantes.get(legajo);
 		if(estudiante == null){
@@ -196,6 +198,13 @@ public class BibliotecaService {
 		}
 		if(prestamoEncontrado == null){
 			throw new Exception("No se encontro un prestamo activo para el estudiante con legajo " + legajo); //PrestamoNoEncontradoException
+		}
+
+		double multa = calcularMulta(diasRetraso, valorLibro);
+		if(multa > 0){
+			System.out.println("El estudiante " + estudiante.getNombre() + " tiene una multa de $" + multa + " por la devolucion tardia del libro '" + libro.getTitulo() + "'");
+		} else {
+			System.out.println("Devolucion registrada sin multas. Gracias por devolver el libro '" + libro.getTitulo() + "' a tiempo, " + estudiante.getNombre());
 		}
 
 		prestamos.remove(prestamoEncontrado);
