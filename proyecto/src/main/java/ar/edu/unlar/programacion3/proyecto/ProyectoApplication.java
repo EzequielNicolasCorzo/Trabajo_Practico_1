@@ -39,13 +39,19 @@ public class ProyectoApplication {
 
 		//Forzamos la excepcion de limite de prestamos excedido al intentar prestar un cuarto libro al mismo estudiante
 		try {
-			service.realizarPrestamo("1212", "978-8439728368");
+			service.realizarPrestamo("1212","978-8439728368");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 
 		try {
 			service.mostrarPrestamosPorEstudiante("1212");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		try {
+			service.registrarDevolucion("1212", "978-8467046465", 15, 1200);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
